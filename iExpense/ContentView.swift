@@ -5,26 +5,30 @@
 //  Created by admin on 10/30/23.
 //
 
-import Observation
 import SwiftUI
 
-@Observable
-class User {
-    var firstName = "Bilbo"
-    var lastName = "Baggins"
+struct SecondView: View {
+    @Environment(\.dismiss) var dismiss
+    let name: String
+    
+    var body: some View {
+        Text("Second View, \(name)")
+        Button("Dismiss") {
+            dismiss()
+        }
+    }
 }
 
 struct ContentView: View {
-    @State private var user = User()
+    @State private var showingSheet = false
     
     var body: some View {
-        VStack {
-            Text("Your naem is \(user.firstName) \(user.lastName)")
-            
-            TextField("First name", text: $user.firstName)
-            TextField("Last name", text: $user.lastName)
+        Button("Show Sheet") {
+            showingSheet.toggle()
         }
-        .padding()
+        .sheet(isPresented: $showingSheet) {
+            SecondView(name: "@SwiftUI")
+        }
     }
 }
 
